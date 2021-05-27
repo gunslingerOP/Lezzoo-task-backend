@@ -25,17 +25,17 @@ model Store {
   description String   @db.VarChar(1000)
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
-  image       Bytes?
+  image       Bytes?   @db.LongBlob
+  user        User     @relation(fields: [user_id], references: [id])
 
   user_id    Int
   categories Category[]
   products   Product[]
-  user       User       @relation(fields: [user_id], references: [id])
 }
 
 model Category {
   id          Int    @id @default(autoincrement())
-  name        String @unique @db.VarChar(100)
+  name        String @db.VarChar(100)
   description String @db.VarChar(1000)
   image       Bytes?
 
@@ -46,7 +46,7 @@ model Category {
 
 model Product {
   id          Int    @id @default(autoincrement())
-  name        String @unique @db.VarChar(100)
+  name        String @db.VarChar(100)
   description String @db.VarChar(1000)
   image       Bytes?
 

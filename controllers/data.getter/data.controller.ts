@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { async } from "validate.js";
-import { errRes, okRes } from "../../utility/helpers";
+import { errRes, okRes, paginate } from "../../utility/helpers";
 let prisma = new PrismaClient();
 export default class DataController {
   static getUserInfo = async (req, res) => {
@@ -18,11 +18,15 @@ export default class DataController {
 
   static getUserStores = async (req, res) => {
     let user = req.user;
+    let { p, s } = req.query;
 
+    let { skip, take } = paginate(p, s);
     let stores = await prisma.store.findMany({
       where: {
         user_id: user.id,
       },
+      skip,
+      take,
     });
     if (!stores) return errRes(res, `No store found`);
 
@@ -31,7 +35,10 @@ export default class DataController {
 
   static getStoreCategories = async (req, res) => {
     let user = req.user;
-    let storeId = parseInt(req.params.id);
+    let storeId = parseInt(req.params.storeId);
+    let { p, s } = req.query;
+
+    let { skip, take } = paginate(p, s);
     let store = await prisma.store.findFirst({
       where: {
         id: storeId,
@@ -43,6 +50,8 @@ export default class DataController {
       where: {
         store_id: store.id,
       },
+      skip,
+      take,
     });
     if (!categories) return errRes(res, `No categories found`);
 
@@ -51,7 +60,9 @@ export default class DataController {
 
   static getCategoryProducts = async (req, res) => {
     let user = req.user;
-    let categoryId = parseInt(req.params.id);
+    let categoryId = parseInt(req.params.categoryId);
+    let { p, s } = req.query;
+    let { skip, take } = paginate(p, s);
     let category = await prisma.category.findFirst({
       where: {
         id: categoryId,
@@ -70,6 +81,8 @@ export default class DataController {
       where: {
         category_id: categoryId,
       },
+      skip,
+      take,
     });
     if (!products) return errRes(res, `No products found`);
 
@@ -78,7 +91,9 @@ export default class DataController {
 
   static getStoreProducts = async (req, res) => {
     let user = req.user;
-    let categoryId = parseInt(req.params.id);
+    let categoryId = parseInt(req.params.categoryId);
+    let { p, s } = req.query;
+    let { skip, take } = paginate(p, s);
     let category = await prisma.category.findFirst({
       where: {
         id: categoryId,
@@ -97,6 +112,8 @@ export default class DataController {
       where: {
         store_id: store.id,
       },
+      skip,
+      take,
     });
     if (!products) return errRes(res, `No products found`);
 
@@ -105,7 +122,8 @@ export default class DataController {
 
   static getProductDetails = async (req, res) => {
     let user = req.user;
-    let productId = parseInt(req.params.id);
+    let productId = parseInt(req.params.productId);
+
     let product = await prisma.product.findFirst({
       where: {
         id: productId,

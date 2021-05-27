@@ -20,7 +20,7 @@ export default class StoreController {
   static addStore = async (req, res) => {
     //Getting user and request body
     let user = req.user;
-    let user_id = user.id;
+
     let body = req.body;
 
     //Validating request data
@@ -30,9 +30,9 @@ export default class StoreController {
     //Add store
     let store = await prisma.store.create({
       data: {
-        title: body.title,
+        title: body.name,
         description: body.description,
-        user_id,
+        user_id: user.id,
       },
     });
     return okRes(res, store);
@@ -119,6 +119,8 @@ export default class StoreController {
         description: body.description,
       },
     });
+
+    return okRes(res, product);
   };
 
   /**
