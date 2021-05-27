@@ -21,8 +21,34 @@ export default class validator {
     },
   });
 
+  static store = (must = true) => ({
+    name: {
+      presence: must,
+      type: "string",
+    },
+    description: {
+      presence: must,
+      type: "string",
+    },
+  });
+
   static category = (must = true) => ({
     name: {
+      presence: must,
+      type: "string",
+    },
+    description: {
+      presence: must,
+      type: "string",
+    },
+  });
+
+  static product = (must = true) => ({
+    name: {
+      presence: must,
+      type: "string",
+    },
+    description: {
       presence: must,
       type: "string",
     },
