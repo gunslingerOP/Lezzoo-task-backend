@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export default class Todocontroller {
+export default class StoreController {
   /**
    *
    * This function adds a store
@@ -79,11 +79,11 @@ export default class Todocontroller {
 
   /**
    *
-   * This function adds a todo
+   * This function adds a product
    *
-   * @requires updated_status
+   * @requires categoryId
    *
-   * @returns the updated todo
+   * @returns the created product
    */
 
   static addProduct = async (req, res) => {
@@ -120,4 +120,11 @@ export default class Todocontroller {
       },
     });
   };
+
+  /**
+   * This function adds an image to a store, category or product
+   *
+   * @requires ID of the entity you wish to add an image to
+   * @requires entityType : as query this is the type of entity you wish to add an image to (store for example)
+   */
 }
