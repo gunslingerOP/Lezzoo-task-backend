@@ -25,7 +25,7 @@ const comparePassword = async (plainPassword, hash) =>
   await bcrypt.compare(plainPassword, hash);
 
 const paginate = (p = 1, s = 10) => {
-  let take = s;
+  let take = Number(s);
   let skip = s * (p - 1);
   return { take, skip };
 };
