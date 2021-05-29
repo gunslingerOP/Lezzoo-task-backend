@@ -74,13 +74,16 @@ export default class UserController {
     });
     if (!userExists) return errRes(res, `Username does not exist`);
 
-    let passwordIsCorrect = comparePassword(body.password, userExists.password);
+    let passwordIsCorrect = await comparePassword(
+      body.password,
+      userExists.password
+    );
 
     if (!passwordIsCorrect) return errRes(res, `Incorrect password`);
 
     //return a token if all is good
     const token = jwt.sign({ id: userExists.id }, process.env.JWT_SECRET);
 
-    return okRes(res, token);
+    return okRes(res, { userExists, token });
   };
 }

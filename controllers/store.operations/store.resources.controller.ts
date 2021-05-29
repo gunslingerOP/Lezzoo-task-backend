@@ -27,7 +27,7 @@ export default class StoreResources {
       },
     });
 
-    if (!store) return errRes(res, `No store found with that ID`);
+    if (store.count == 0) return errRes(res, `No store found with that ID`);
     return okRes(res, `Image added`);
   };
 
@@ -60,7 +60,8 @@ export default class StoreResources {
       },
     });
 
-    if (!category) return errRes(res, `No category found with that ID`);
+    if (category.count == 0)
+      return errRes(res, `No category found with that ID`);
     return okRes(res, `Image added`);
   };
 
@@ -93,7 +94,7 @@ export default class StoreResources {
       },
     });
 
-    if (!product) return errRes(res, `No product found with that ID`);
+    if (product.count == 0) return errRes(res, `No product found with that ID`);
     return okRes(res, `Image added`);
   };
 }

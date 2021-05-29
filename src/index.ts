@@ -24,8 +24,7 @@ app.use("/", function (req, res) {
   res.statusCode = 404; //send the appropriate status code
   return res.json({
     status: false,
-    message: "404 Not Found",
-    data: {},
+    err: "404 Not Found",
   });
 });
 app.listen(port, () => {

@@ -30,7 +30,14 @@ export default class DataController {
     });
     if (!stores) return errRes(res, `No store found`);
 
-    return okRes(res, stores);
+    let categoryCount = await prisma.store.findMany({
+      where: {
+        user_id: user.id,
+      },
+    });
+    let count = categoryCount.length;
+
+    return okRes(res, { stores, count });
   };
 
   static getStoreCategories = async (req, res) => {
@@ -55,7 +62,14 @@ export default class DataController {
     });
     if (!categories) return errRes(res, `No categories found`);
 
-    return okRes(res, categories);
+    let categoryCount = await prisma.category.findMany({
+      where: {
+        store_id: store.id,
+      },
+    });
+    let count = categoryCount.length;
+
+    return okRes(res, { categories, count });
   };
 
   static getCategoryProducts = async (req, res) => {
@@ -86,7 +100,14 @@ export default class DataController {
     });
     if (!products) return errRes(res, `No products found`);
 
-    return okRes(res, products);
+    let productCount = await prisma.product.findMany({
+      where: {
+        category_id: categoryId,
+      },
+    });
+    let count = productCount.length;
+
+    return okRes(res, { products, count });
   };
 
   static getStoreProducts = async (req, res) => {
@@ -116,8 +137,14 @@ export default class DataController {
       take,
     });
     if (!products) return errRes(res, `No products found`);
+    let productCount = await prisma.product.findMany({
+      where: {
+        store_id: store.id,
+      },
+    });
+    let count = productCount.length;
 
-    return okRes(res, products);
+    return okRes(res, { products, count });
   };
 
   static getProductDetails = async (req, res) => {
